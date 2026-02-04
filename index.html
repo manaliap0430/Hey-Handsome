@@ -7,6 +7,7 @@
     body {
       margin: 0;
       height: 100vh;
+      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -16,30 +17,34 @@
 
     .card {
       background: white;
-      padding: 50px 40px;
-      border-radius: 25px;
-      box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+      padding: 60px 50px;
+      border-radius: 30px;
+      box-shadow: 0 20px 35px rgba(0,0,0,0.25);
       text-align: center;
+      position: relative;
+      z-index: 2;
     }
 
+    /* EXTRA BIG BUTTON */
     .heart-button {
       background: #ff4d6d;
       color: white;
       border: none;
-      padding: 30px 45px;   /* BIGGER BUTTON */
-      font-size: 22px;
-      border-radius: 60px;
+      padding: 40px 65px;   /* BIGGER */
+      font-size: 26px;      /* BIGGER TEXT */
+      border-radius: 80px;
       cursor: pointer;
       transition: transform 0.3s;
     }
 
     .heart-button:hover {
-      transform: scale(1.1);
+      transform: scale(1.12);
     }
 
+    /* BIGGER LOVE MESSAGE */
     .love-text {
-      margin-top: 30px;
-      font-size: 42px;     /* BIGGER MESSAGE */
+      margin-top: 35px;
+      font-size: 52px;      /* MUCH BIGGER */
       color: #ff4d6d;
       display: none;
       animation: pop 0.6s ease-in-out;
@@ -48,6 +53,28 @@
     @keyframes pop {
       0% { transform: scale(0); opacity: 0; }
       100% { transform: scale(1); opacity: 1; }
+    }
+
+    .floating-heart {
+      position: absolute;
+      bottom: -20px;
+      font-size: 28px;
+      animation: floatUp 4s ease-in forwards;
+      opacity: 0.85;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) scale(0.5);
+        opacity: 0;
+      }
+      20% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-650px) scale(1.3);
+        opacity: 0;
+      }
     }
   </style>
 </head>
@@ -59,14 +86,33 @@
     </button>
 
     <div class="love-text" id="loveText">
-      I love you Baby ❤️😘
+      I love you baby ❤️😘
     </div>
   </div>
 
   <script>
     function showLove() {
-      document.getElementById("heartBtn").style.display = "none"; // hide button
-      document.getElementById("loveText").style.display = "block"; // show message
+      document.getElementById("heartBtn").style.display = "none";
+      document.getElementById("loveText").style.display = "block";
+
+      // floating hearts burst
+      for (let i = 0; i < 18; i++) {
+        createHeart();
+      }
+    }
+
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "floating-heart";
+      heart.innerHTML = "❤️";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = (Math.random() * 2 + 3) + "s";
+
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 4000);
     }
   </script>
 
